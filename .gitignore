@@ -1,0 +1,14 @@
+@"
+
+# Env
+.env
+.env.local
+
+# Editor
+.vscode
+.idea
+.antigravity
+
+# OS
+.DS_Store
+"@ | Add-Content .gitignore

@@ -1,0 +1,12 @@
+@import "tailwindcss";
+
+/* Tus estilos personalizados (opcional) */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  color: #111827;
+  -webkit-font-smoothing: antialiased;
+}
