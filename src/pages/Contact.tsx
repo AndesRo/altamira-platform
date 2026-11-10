@@ -192,7 +192,7 @@ export const Contact = () => {
             {/* Tarjetas de contacto */}
             <section>
                 <h2 className="mb-4 text-lg font-bold text-gray-900">
-                    Administración actual
+                    Contacto Administración
                 </h2>
                 <div className="grid gap-4 sm:grid-cols-2">
                     <ContactCard
@@ -229,7 +229,7 @@ export const Contact = () => {
             {/* Emergencias */}
             <section>
                 <h2 className="mb-4 text-lg font-bold text-gray-900">
-                    Contactos de emergencia
+                    Contacto de emergencia
                 </h2>
                 <div className="grid gap-4 sm:grid-cols-2">
                     <div className="flex items-start gap-4 rounded-2xl border border-red-200 bg-gradient-to-br from-red-50 to-white p-5 shadow-sm">
@@ -276,9 +276,8 @@ export const Contact = () => {
 
             <div className="rounded-xl border border-blue-200 bg-blue-50 px-5 py-4">
                 <p className="text-sm text-blue-900">
-                    💬 <strong>¿Necesitas actualizar algún dato de contacto?</strong>{' '}
-                    Comunícate con la administración para mantener esta información
-                    vigente.
+                    💬 <strong></strong>{' '}
+
                 </p>
             </div>
         </div>
