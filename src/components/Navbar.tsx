@@ -144,7 +144,7 @@ export const Navbar = () => {
                             <div className="flex items-center gap-3">
                                 <div className="h-10 w-10 overflow-hidden rounded-lg ring-2 ring-primary-600/20">
                                     <img
-                                        src="/logo-altamira.jpeg"
+                                        src="/favicon-96x96.png"
                                         alt="Edificio Altamira"
                                         className="h-full w-full object-cover"
                                     />
