@@ -3,10 +3,8 @@ import { Document, Page, pdfjs } from 'react-pdf';
 import 'react-pdf/dist/Page/AnnotationLayer.css';
 import 'react-pdf/dist/Page/TextLayer.css';
 
-pdfjs.GlobalWorkerOptions.workerSrc = new URL(
-    'pdfjs-dist/build/pdf.worker.min.mjs',
-    import.meta.url
-).toString();
+// ✅ Configuración del worker vía CDN (100% compatible con Vite dev y build)
+pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.mjs`;
 
 interface Props {
     fileUrl: string;
@@ -15,6 +13,7 @@ interface Props {
 
 export const PdfViewer = ({ fileUrl, onClose }: Props) => {
     const [numPages, setNumPages] = useState<number | null>(null);
+    const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
     return (
         <div
@@ -34,15 +33,32 @@ export const PdfViewer = ({ fileUrl, onClose }: Props) => {
                         Cerrar ✕
                     </button>
                 </div>
+
                 <div className="overflow-auto p-4">
                     <Document
                         file={fileUrl}
-                        onLoadSuccess={({ numPages }) => setNumPages(numPages)}
-                        loading={<p className="text-sm text-gray-500">Cargando PDF...</p>}
-                        error={
-                            <p className="text-sm text-red-500">
-                                No se pudo cargar el PDF. Verifica el enlace.
+                        onLoadSuccess={({ numPages }) => {
+                            setNumPages(numPages);
+                            setErrorMsg(null);
+                        }}
+                        onLoadError={(err) => {
+                            console.error('PDF load error:', err);
+                            setErrorMsg(
+                                'No se pudo cargar el PDF. Verifica el enlace o el archivo.'
+                            );
+                        }}
+                        loading={
+                            <p className="py-8 text-center text-sm text-gray-500">
+                                Cargando PDF...
                             </p>
+                        }
+                        error={
+                            <div className="rounded-lg bg-red-50 p-4 text-center text-sm text-red-700">
+                                {errorMsg || 'Error al cargar el PDF'}
+                                <p className="mt-2 text-xs text-gray-500">
+                                    Prueba abriéndolo en una pestaña nueva o revisa la consola (F12).
+                                </p>
+                            </div>
                         }
                     >
                         {Array.from({ length: numPages ?? 0 }, (_, i) => (
