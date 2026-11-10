@@ -11,6 +11,7 @@ const empty: Partial<DocumentItem> = {
     description: '',
     category: 'General',
     file_url: '',
+    cover_image_url: null,
 };
 
 const categories = ['General', 'Reglamento', 'Acta', 'Financiero', 'Otro'];
@@ -59,6 +60,7 @@ export const AdminDocuments = () => {
             description: form.description ?? null,
             category: form.category ?? 'General',
             file_url: form.file_url,
+            cover_image_url: form.cover_image_url ?? null,
         };
         const { error } = editing
             ? await update(editing.id, payload)
@@ -82,7 +84,9 @@ export const AdminDocuments = () => {
             <div className="flex items-center justify-between">
                 <div>
                     <h1 className="text-2xl font-bold text-gray-900">Documentos</h1>
-                    <p className="text-sm text-gray-500">Reglamentos, actas y documentos oficiales.</p>
+                    <p className="text-sm text-gray-500">
+                        Reglamentos, actas y documentos oficiales.
+                    </p>
                 </div>
                 <button
                     onClick={openNew}
@@ -103,11 +107,20 @@ export const AdminDocuments = () => {
                             key={it.id}
                             className="flex items-center justify-between rounded-xl border border-gray-200 bg-white p-4"
                         >
-                            <div>
-                                <span className="inline-block rounded bg-primary-50 px-2 py-0.5 text-xs font-semibold text-primary-700">
-                                    {it.category}
-                                </span>
-                                <p className="mt-1 font-semibold text-gray-900">{it.title}</p>
+                            <div className="min-w-0">
+                                <div className="flex flex-wrap items-center gap-2">
+                                    <span className="inline-block rounded bg-primary-50 px-2 py-0.5 text-xs font-semibold text-primary-700">
+                                        {it.category}
+                                    </span>
+                                    {it.cover_image_url && (
+                                        <span className="inline-block rounded bg-emerald-50 px-2 py-0.5 text-xs font-semibold text-emerald-700">
+                                            🖼️ Portada
+                                        </span>
+                                    )}
+                                </div>
+                                <p className="mt-1 truncate font-semibold text-gray-900">
+                                    {it.title}
+                                </p>
                                 {it.description && (
                                     <p className="line-clamp-1 text-sm text-gray-500">
                                         {it.description}
@@ -167,6 +180,7 @@ export const AdminDocuments = () => {
                             </select>
                         </div>
                     </div>
+
                     <div>
                         <label className="mb-1 block text-sm font-medium text-gray-700">
                             Descripción
@@ -174,16 +188,33 @@ export const AdminDocuments = () => {
                         <textarea
                             rows={3}
                             value={form.description ?? ''}
-                            onChange={(e) => setForm({ ...form, description: e.target.value })}
+                            onChange={(e) =>
+                                setForm({ ...form, description: e.target.value })
+                            }
                             className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm"
                         />
                     </div>
+
+                    {/* Portada (imagen) */}
+                    <FileUpload
+                        folder="documents/covers"
+                        currentPath={form.cover_image_url ?? null}
+                        onUploaded={(path) =>
+                            setForm({ ...form, cover_image_url: path })
+                        }
+                        accept="image/*"
+                        label="Imagen de portada (opcional)"
+                        showPreview
+                    />
+
+                    {/* PDF */}
                     <FileUpload
                         folder="documents"
                         currentPath={form.file_url ?? null}
                         onUploaded={(path) => setForm({ ...form, file_url: path ?? '' })}
                         label="Archivo PDF *"
                     />
+
                     <div className="flex justify-end gap-2 border-t border-gray-100 pt-3">
                         <button
                             onClick={() => setFormOpen(false)}

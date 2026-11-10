@@ -5,6 +5,7 @@ const links = [
     { to: '/admin/administraciones', label: 'Administraciones', icon: '🗳️' },
     { to: '/admin/noticias', label: 'Noticias', icon: '📰' },
     { to: '/admin/documentos', label: 'Documentos', icon: '📄' },
+    { to: '/admin/contacto', label: 'Contacto', icon: '📞' },
 ];
 
 export const AdminLayout = () => (

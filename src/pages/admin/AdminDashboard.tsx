@@ -53,6 +53,13 @@ export const AdminDashboard = () => {
             icon: '📄',
             color: 'bg-emerald-50 text-emerald-700',
         },
+        {
+            to: '/admin/contacto',
+            label: 'Contacto',
+            count: 1,
+            icon: '📞',
+            color: 'bg-purple-50 text-purple-700',
+        },
     ];
 
     return (
@@ -62,7 +69,7 @@ export const AdminDashboard = () => {
                 Resumen del contenido publicado en el portal.
             </p>
 
-            <div className="mt-6 grid gap-4 md:grid-cols-3">
+            <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
                 {cards.map((c) => (
                     <Link
                         key={c.to}

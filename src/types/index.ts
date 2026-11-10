@@ -23,10 +23,26 @@ export interface DocumentItem {
     description: string | null;
     category: string;
     file_url: string;
+    cover_image_url: string | null; // 👈 nuevo
     uploaded_at: string;
 }
 
 export interface User {
     id: string;
     email: string;
+}
+
+// ...tipos existentes...
+
+export interface ContactInfo {
+    id: number;
+    admin_phone: string;
+    admin_email: string;
+    admin_hours: string;
+    address: string;
+    whatsapp_url: string;
+    conserjeria_phone: string;
+    conserjeria_hours: string;
+    emergencies_note: string;
+    updated_at: string;
 }

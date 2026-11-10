@@ -14,6 +14,7 @@ import { AdminDashboard } from './pages/admin/AdminDashboard';
 import { AdminAdministrations } from './pages/admin/AdminAdministrations';
 import { AdminNews } from './pages/admin/AdminNews';
 import { AdminDocuments } from './pages/admin/AdminDocuments';
+import { AdminContact } from './pages/admin/AdminContact';
 
 function App() {
   return (
@@ -52,6 +53,7 @@ function App() {
             <Route path="administraciones" element={<AdminAdministrations />} />
             <Route path="noticias" element={<AdminNews />} />
             <Route path="documentos" element={<AdminDocuments />} />
+            <Route path="contacto" element={<AdminContact />} />
           </Route>
         </Routes>
       </BrowserRouter>

@@ -168,7 +168,7 @@ const AdministrationCard = ({
             {expanded && admin.full_description && (
                 <div className="mt-4 rounded-lg border border-gray-200 bg-gray-50 p-4">
                     <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-500">
-                        Detalle de la propuesta
+                        Información Clave:
                     </p>
                     <p className="whitespace-pre-line text-[15px] leading-relaxed text-gray-700 text-justify">
                         {admin.full_description}
