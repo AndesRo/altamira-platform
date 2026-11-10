@@ -24,7 +24,7 @@ export const Elections = () => {
             setPdfToShow(url);
         } else {
             setPdfError(
-                'No se pudo cargar el PDF. Verifica que el archivo exista en Storage.'
+                'No se pudo cargar la propuesta de servicios. Verifica que el archivo exista en Storage.'
             );
             setTimeout(() => setPdfError(null), 5000);
         }
@@ -73,16 +73,22 @@ export const Elections = () => {
 
             {/* Listado de candidaturas */}
             <section>
-                <h2 className="mb-4 text-xl font-bold text-gray-900">
-                    Administraciones participantes
-                </h2>
+                <div className="mb-6">
+                    <h2 className="text-xl font-bold text-gray-900">
+                        Administraciones participantes
+                    </h2>
+                    <p className="mt-1 text-sm text-gray-500">
+                        Revisa el resumen de cada propuesta y descarga el documento completo
+                        para conocer el plan de servicios.
+                    </p>
+                </div>
 
                 {data.length === 0 ? (
                     <div className="rounded-xl border border-dashed border-gray-300 bg-white p-10 text-center text-gray-500">
                         Aún no se han publicado administraciones participantes.
                     </div>
                 ) : (
-                    <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+                    <div className="grid gap-6 md:grid-cols-2">
                         {data.map((admin) => (
                             <AdministrationCard
                                 key={admin.id}
@@ -108,6 +114,9 @@ export const Elections = () => {
     );
 };
 
+/* ============================================================ */
+/* TARJETA DE ADMINISTRACIÓN PARTICIPANTE                       */
+/* ============================================================ */
 const AdministrationCard = ({
     admin,
     expanded,
@@ -121,44 +130,76 @@ const AdministrationCard = ({
     onViewPdf: () => void;
     loadingPdf: boolean;
 }) => (
-    <article className="flex flex-col rounded-xl border border-gray-200 bg-white p-5 shadow-sm transition hover:shadow-md">
-        <div className="mb-3 flex items-start gap-3">
-            <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-primary-100 text-lg font-bold text-primary-700">
-                {admin.name.charAt(0).toUpperCase()}
-            </div>
-            <div>
-                <h3 className="font-bold text-gray-900">{admin.name}</h3>
-                {admin.contact_name && (
-                    <p className="text-xs text-gray-500">Contacto: {admin.contact_name}</p>
-                )}
+    <article className="flex flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition hover:shadow-lg">
+        {/* Header con badge y nombre */}
+        <div className="border-b border-gray-100 bg-gradient-to-br from-primary-50 to-white px-6 py-5">
+            <div className="flex items-start gap-4">
+                <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-primary-600 text-xl font-bold text-white shadow-sm">
+                    {admin.name.charAt(0).toUpperCase()}
+                </div>
+                <div className="min-w-0 flex-1">
+                    <span className="inline-block rounded-full bg-primary-100 px-2.5 py-0.5 text-xs font-semibold uppercase tracking-wide text-primary-700">
+                        Candidatura
+                    </span>
+                    <h3 className="mt-1 text-lg font-bold leading-tight text-gray-900">
+                        {admin.name}
+                    </h3>
+                    {admin.contact_name && (
+                        <p className="mt-1 text-xs text-gray-500">
+                            👤 Contacto: {admin.contact_name}
+                        </p>
+                    )}
+                </div>
             </div>
         </div>
 
-        <p className={`text-sm text-gray-600 ${expanded ? '' : 'line-clamp-4'}`}>
-            {admin.summary}
-        </p>
-
-        {expanded && admin.full_description && (
-            <div className="mt-3 rounded-lg bg-gray-50 p-3 text-sm text-gray-700">
-                {admin.full_description}
-            </div>
-        )}
-
-        <div className="mt-4 flex flex-wrap gap-2 pt-2">
-            <button
-                onClick={onToggle}
-                className="rounded-lg bg-gray-100 px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-200"
+        {/* Cuerpo con resumen */}
+        <div className="flex flex-1 flex-col px-6 py-5">
+            <p className="text-sm font-semibold uppercase tracking-wide text-gray-500">
+                Resumen de la propuesta
+            </p>
+            <p
+                className={`mt-2 text-[15px] leading-relaxed text-gray-700 text-justify ${expanded ? '' : 'line-clamp-5'
+                    }`}
             >
-                {expanded ? 'Ver menos' : 'Ver resumen'}
-            </button>
-            {admin.pdf_url && (
+                {admin.summary}
+            </p>
+
+            {expanded && admin.full_description && (
+                <div className="mt-4 rounded-lg border border-gray-200 bg-gray-50 p-4">
+                    <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-500">
+                        Detalle de la propuesta
+                    </p>
+                    <p className="whitespace-pre-line text-[15px] leading-relaxed text-gray-700 text-justify">
+                        {admin.full_description}
+                    </p>
+                </div>
+            )}
+
+            {/* Acciones */}
+            <div className="mt-auto flex flex-col gap-2 pt-5 sm:flex-row">
                 <button
-                    onClick={onViewPdf}
-                    disabled={loadingPdf}
-                    className="rounded-lg bg-primary-600 px-3 py-2 text-sm font-semibold text-white hover:bg-primary-700 disabled:opacity-60"
+                    onClick={onToggle}
+                    className="flex-1 rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm font-semibold text-gray-700 transition hover:bg-gray-50"
                 >
-                    {loadingPdf ? 'Cargando PDF...' : 'Ver PDF'}
+                    {expanded ? 'Ocultar resumen' : 'Leer resumen completo'}
                 </button>
+
+                {admin.pdf_url && (
+                    <button
+                        onClick={onViewPdf}
+                        disabled={loadingPdf}
+                        className="flex-1 rounded-lg bg-primary-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-primary-700 disabled:cursor-not-allowed disabled:opacity-60"
+                    >
+                        {loadingPdf ? 'Cargando...' : '📄 Ver propuesta de servicios'}
+                    </button>
+                )}
+            </div>
+
+            {!admin.pdf_url && (
+                <p className="mt-3 rounded-lg bg-amber-50 px-3 py-2 text-xs text-amber-800">
+                    ℹ️ Esta candidatura aún no ha adjuntado el documento de propuesta.
+                </p>
             )}
         </div>
     </article>
