@@ -37,7 +37,7 @@ export const Login = () => {
             <div className="relative z-10 flex min-h-screen items-center justify-center px-6 py-12">
                 <div className="w-full max-w-md text-center">
                     {/* Logo/Ícono */}
-                    <img src="/logo-altamira.jpeg" alt="Altamira" className="mx-auto mb-6 h-16 w-16 rounded-2xl object-cover ring-1 ring-white/30" />
+                    <img src="/favicon-96x96.png" alt="Altamira" className="mx-auto mb-6 h-16 w-16 rounded-2xl object-cover ring-1 ring-white/30" />
 
                     {/* Título grande */}
                     <h1 className="text-4xl font-extrabold leading-tight tracking-tight text-white drop-shadow-lg sm:text-5xl">

@@ -15,6 +15,7 @@ import { AdminAdministrations } from './pages/admin/AdminAdministrations';
 import { AdminNews } from './pages/admin/AdminNews';
 import { AdminDocuments } from './pages/admin/AdminDocuments';
 import { AdminContact } from './pages/admin/AdminContact';
+import { InstallPWA } from './components/InstallPWA';
 
 function App() {
   return (
@@ -56,6 +57,7 @@ function App() {
             <Route path="contacto" element={<AdminContact />} />
           </Route>
         </Routes>
+        <InstallPWA />
       </BrowserRouter>
     </AuthProvider>
   );

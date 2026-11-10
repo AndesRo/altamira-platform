@@ -42,7 +42,7 @@ export const Navbar = () => {
                     <Link to="/" className="flex items-center gap-3 sm:gap-4">
                         <div className="relative h-12 w-12 flex-shrink-0 overflow-hidden rounded-xl ring-2 ring-primary-600/20 shadow-md sm:h-14 sm:w-14">
                             <img
-                                src="/logo-altamira.jpeg"
+                                src="/favicon-96x96.png"
                                 alt="Edificio Altamira"
                                 className="h-full w-full object-cover"
                             />
