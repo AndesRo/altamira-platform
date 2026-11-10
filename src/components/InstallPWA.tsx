@@ -77,7 +77,7 @@ export const InstallPWA = () => {
                     <div className="flex items-start gap-3">
                         <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center overflow-hidden rounded-xl bg-primary-600">
                             <img
-                                src="/web-app-manifest-192x192.png"
+                                src="/icon-192.png"
                                 alt="Altamira"
                                 className="h-full w-full object-cover"
                             />
