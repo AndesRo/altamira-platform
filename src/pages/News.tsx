@@ -1,7 +1,9 @@
 // src/pages/News.tsx
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useNews } from '../hooks/useNews';
 import { Loading } from '../components/Loading';
+import { resolveFileUrl } from '../utils/storage';
 import { News } from '../types';
 
 export const NewsPage = () => {
@@ -42,26 +44,65 @@ export const NewsPage = () => {
 };
 
 /* ============================================================
-   Tarjeta de noticia con soporte de enlace externo
+   Imagen con resolución de URL firmada
+   ============================================================ */
+const NewsImage = ({ path, alt }: { path: string; alt: string }) => {
+    const [url, setUrl] = useState<string | null>(null);
+
+    useEffect(() => {
+        let cancelled = false;
+        resolveFileUrl(path).then((u) => {
+            if (!cancelled) setUrl(u);
+        });
+        return () => {
+            cancelled = true;
+        };
+    }, [path]);
+
+    if (!url) {
+        return (
+            <div className="flex h-full w-full items-center justify-center bg-gray-100">
+                <span className="text-3xl opacity-30">🖼️</span>
+            </div>
+        );
+    }
+
+    return (
+        <img
+            src={url}
+            alt={alt}
+            className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+        />
+    );
+};
+
+/* ============================================================
+   Tarjeta de noticia
    ============================================================ */
 const NewsCard = ({ news }: { news: News }) => {
     const hasExternalLink = !!news.external_url;
+    const hasPdf = !!news.pdf_url;
 
     const cardContent = (
         <>
             {/* Imagen (si existe) */}
             {news.image_url && (
                 <div className="relative h-48 w-full overflow-hidden bg-gray-100">
-                    <img
-                        src={news.image_url}
-                        alt={news.title}
-                        className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                    />
-                    {hasExternalLink && (
-                        <span className="absolute right-3 top-3 inline-flex items-center gap-1 rounded-md bg-emerald-600 px-2 py-1 text-[11px] font-bold uppercase tracking-wide text-white shadow-md">
-                            📋 Formulario
-                        </span>
-                    )}
+                    <NewsImage path={news.image_url} alt={news.title} />
+
+                    {/* Badges sobre la imagen */}
+                    <div className="absolute right-3 top-3 flex flex-col items-end gap-1.5">
+                        {hasExternalLink && (
+                            <span className="inline-flex items-center gap-1 rounded-md bg-emerald-600 px-2 py-1 text-[10px] font-bold uppercase tracking-wide text-white shadow-md">
+                                📋 Formulario
+                            </span>
+                        )}
+                        {hasPdf && (
+                            <span className="inline-flex items-center gap-1 rounded-md bg-red-600 px-2 py-1 text-[10px] font-bold uppercase tracking-wide text-white shadow-md">
+                                📄 PDF
+                            </span>
+                        )}
+                    </div>
                 </div>
             )}
 
@@ -80,6 +121,8 @@ const NewsCard = ({ news }: { news: News }) => {
                 <p className="mt-2 line-clamp-3 text-sm text-gray-600">
                     {news.content}
                 </p>
+
+                {/* CTA */}
                 <span className="mt-3 inline-flex items-center gap-1 text-sm font-medium text-primary-600 transition-all group-hover:gap-2">
                     {hasExternalLink ? 'Ir al formulario' : 'Leer más'}
                     <span>→</span>
@@ -88,7 +131,7 @@ const NewsCard = ({ news }: { news: News }) => {
         </>
     );
 
-    // Si hay URL externa → la tarjeta entera abre el formulario
+    // Tarjeta con formulario externo
     if (hasExternalLink) {
         return (
             <a
@@ -102,7 +145,7 @@ const NewsCard = ({ news }: { news: News }) => {
         );
     }
 
-    // Si no hay URL externa → mantiene comportamiento original (detalle interno)
+    // Tarjeta normal → detalle interno
     return (
         <Link
             to={`/noticias/${news.id}`}

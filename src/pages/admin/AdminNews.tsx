@@ -4,12 +4,14 @@ import { supabase } from '../../lib/supabase';
 import { useAdminNews } from '../../hooks/useAdminNews';
 import { News } from '../../types';
 import { Modal } from '../../components/admin/Modal';
+import { FileUpload } from '../../components/admin/FileUpload';
 import { Loading } from '../../components/Loading';
 
 const empty: Partial<News> = {
     title: '',
     content: '',
     image_url: null,
+    pdf_url: null,
     external_url: null,
 };
 
@@ -52,6 +54,7 @@ export const AdminNews = () => {
             title: form.title ?? '',
             content: form.content ?? '',
             image_url: form.image_url ?? null,
+            pdf_url: form.pdf_url ?? null,
             external_url: form.external_url || null,
         };
         const { error } = editing
@@ -99,11 +102,21 @@ export const AdminNews = () => {
                             key={it.id}
                             className="flex items-center justify-between rounded-xl border border-gray-200 bg-white p-4"
                         >
-                            <div className="min-w-0">
+                            <div className="min-w-0 flex-1">
                                 <div className="flex flex-wrap items-center gap-2">
                                     <p className="text-xs text-gray-400">
                                         {new Date(it.published_at).toLocaleDateString('es-CL')}
                                     </p>
+                                    {it.image_url && (
+                                        <span className="inline-block rounded bg-blue-50 px-2 py-0.5 text-[10px] font-bold uppercase text-blue-700">
+                                            🖼️ Imagen
+                                        </span>
+                                    )}
+                                    {it.pdf_url && (
+                                        <span className="inline-block rounded bg-red-50 px-2 py-0.5 text-[10px] font-bold uppercase text-red-700">
+                                            📄 PDF
+                                        </span>
+                                    )}
                                     {it.external_url && (
                                         <span className="inline-block rounded bg-emerald-50 px-2 py-0.5 text-[10px] font-bold uppercase text-emerald-700">
                                             📋 Formulario
@@ -160,7 +173,7 @@ export const AdminNews = () => {
                             Contenido *
                         </label>
                         <textarea
-                            rows={8}
+                            rows={6}
                             value={form.content ?? ''}
                             onChange={(e) => setForm({ ...form, content: e.target.value })}
                             className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm"
@@ -168,22 +181,26 @@ export const AdminNews = () => {
                         />
                     </div>
 
-                    <div>
-                        <label className="mb-1 block text-sm font-medium text-gray-700">
-                            URL de imagen (opcional)
-                        </label>
-                        <input
-                            type="url"
-                            value={form.image_url ?? ''}
-                            onChange={(e) =>
-                                setForm({ ...form, image_url: e.target.value || null })
-                            }
-                            className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm"
-                            placeholder="https://..."
-                        />
-                    </div>
+                    {/* 🖼️ Imagen subida */}
+                    <FileUpload
+                        folder="news/covers"
+                        currentPath={form.image_url ?? null}
+                        onUploaded={(path) => setForm({ ...form, image_url: path })}
+                        accept="image/*"
+                        label="Imagen de portada (opcional)"
+                        showPreview
+                    />
 
-                    {/* 🔗 NUEVO: URL de formulario externo */}
+                    {/* 📄 PDF adjunto */}
+                    <FileUpload
+                        folder="news/pdfs"
+                        currentPath={form.pdf_url ?? null}
+                        onUploaded={(path) => setForm({ ...form, pdf_url: path })}
+                        accept="application/pdf"
+                        label="Documento PDF adjunto (opcional)"
+                    />
+
+                    {/* 🔗 Formulario externo */}
                     <div>
                         <label className="mb-1 block text-sm font-medium text-gray-700">
                             URL de formulario externo (opcional)
@@ -199,7 +216,7 @@ export const AdminNews = () => {
                         />
                         <p className="mt-1 text-xs text-gray-500">
                             Si la completas, la tarjeta y el botón "Leer más" abrirán este
-                            enlace en una nueva pestaña. Ideal para formularios de Google.
+                            enlace en una nueva pestaña.
                         </p>
                     </div>
 
