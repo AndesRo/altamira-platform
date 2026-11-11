@@ -1,3 +1,4 @@
+// src/pages/admin/AdminNews.tsx
 import { useEffect, useState } from 'react';
 import { supabase } from '../../lib/supabase';
 import { useAdminNews } from '../../hooks/useAdminNews';
@@ -9,6 +10,7 @@ const empty: Partial<News> = {
     title: '',
     content: '',
     image_url: null,
+    external_url: null,
 };
 
 export const AdminNews = () => {
@@ -50,6 +52,7 @@ export const AdminNews = () => {
             title: form.title ?? '',
             content: form.content ?? '',
             image_url: form.image_url ?? null,
+            external_url: form.external_url || null,
         };
         const { error } = editing
             ? await update(editing.id, payload)
@@ -73,7 +76,9 @@ export const AdminNews = () => {
             <div className="flex items-center justify-between">
                 <div>
                     <h1 className="text-2xl font-bold text-gray-900">Noticias</h1>
-                    <p className="text-sm text-gray-500">Avisos y novedades para los vecinos.</p>
+                    <p className="text-sm text-gray-500">
+                        Avisos y novedades para los vecinos.
+                    </p>
                 </div>
                 <button
                     onClick={openNew}
@@ -94,12 +99,23 @@ export const AdminNews = () => {
                             key={it.id}
                             className="flex items-center justify-between rounded-xl border border-gray-200 bg-white p-4"
                         >
-                            <div>
-                                <p className="text-xs text-gray-400">
-                                    {new Date(it.published_at).toLocaleDateString('es-CL')}
+                            <div className="min-w-0">
+                                <div className="flex flex-wrap items-center gap-2">
+                                    <p className="text-xs text-gray-400">
+                                        {new Date(it.published_at).toLocaleDateString('es-CL')}
+                                    </p>
+                                    {it.external_url && (
+                                        <span className="inline-block rounded bg-emerald-50 px-2 py-0.5 text-[10px] font-bold uppercase text-emerald-700">
+                                            📋 Formulario
+                                        </span>
+                                    )}
+                                </div>
+                                <p className="truncate font-semibold text-gray-900">
+                                    {it.title}
                                 </p>
-                                <p className="font-semibold text-gray-900">{it.title}</p>
-                                <p className="line-clamp-1 text-sm text-gray-500">{it.content}</p>
+                                <p className="line-clamp-1 text-sm text-gray-500">
+                                    {it.content}
+                                </p>
                             </div>
                             <div className="flex gap-1">
                                 <button
@@ -138,6 +154,7 @@ export const AdminNews = () => {
                             className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm"
                         />
                     </div>
+
                     <div>
                         <label className="mb-1 block text-sm font-medium text-gray-700">
                             Contenido *
@@ -150,6 +167,7 @@ export const AdminNews = () => {
                             placeholder="Contenido de la noticia. Usa saltos de línea para separar párrafos."
                         />
                     </div>
+
                     <div>
                         <label className="mb-1 block text-sm font-medium text-gray-700">
                             URL de imagen (opcional)
@@ -157,11 +175,34 @@ export const AdminNews = () => {
                         <input
                             type="url"
                             value={form.image_url ?? ''}
-                            onChange={(e) => setForm({ ...form, image_url: e.target.value })}
+                            onChange={(e) =>
+                                setForm({ ...form, image_url: e.target.value || null })
+                            }
                             className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm"
                             placeholder="https://..."
                         />
                     </div>
+
+                    {/* 🔗 NUEVO: URL de formulario externo */}
+                    <div>
+                        <label className="mb-1 block text-sm font-medium text-gray-700">
+                            URL de formulario externo (opcional)
+                        </label>
+                        <input
+                            type="url"
+                            value={form.external_url ?? ''}
+                            onChange={(e) =>
+                                setForm({ ...form, external_url: e.target.value || null })
+                            }
+                            className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm"
+                            placeholder="https://docs.google.com/forms/d/e/..."
+                        />
+                        <p className="mt-1 text-xs text-gray-500">
+                            Si la completas, la tarjeta y el botón "Leer más" abrirán este
+                            enlace en una nueva pestaña. Ideal para formularios de Google.
+                        </p>
+                    </div>
+
                     <div className="flex justify-end gap-2 border-t border-gray-100 pt-3">
                         <button
                             onClick={() => setFormOpen(false)}

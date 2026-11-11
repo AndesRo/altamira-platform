@@ -14,6 +14,7 @@ export interface News {
     title: string;
     content: string;
     image_url: string | null;
+    external_url: string | null;
     published_at: string;
 }
 
