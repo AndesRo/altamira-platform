@@ -1,3 +1,4 @@
+// src/pages/admin/AdminAdministrations.tsx
 import { useEffect, useState } from 'react';
 import { supabase } from '../../lib/supabase';
 import { useAdminAdministrations } from '../../hooks/useAdminAdministrations';
@@ -6,6 +7,10 @@ import { Modal } from '../../components/admin/Modal';
 import { FileUpload } from '../../components/admin/FileUpload';
 import { Loading } from '../../components/Loading';
 
+// 👇 Importaciones del editor
+import ReactQuill from 'react-quill-new';
+import 'react-quill-new/dist/quill.snow.css';
+
 const empty: Partial<Administration> = {
     name: '',
     summary: '',
@@ -13,6 +18,15 @@ const empty: Partial<Administration> = {
     pdf_url: null,
     contact_name: '',
     order_index: 0,
+};
+
+// 👇 Configuración de la barra de herramientas
+const quillModules = {
+    toolbar: [
+        ['bold', 'underline', 'italic'],          // Negrita, subrayado, cursiva
+        [{ list: 'ordered' }, { list: 'bullet' }], // Listas numeradas y viñetas
+        ['clean'],                                // Limpiar formato
+    ],
 };
 
 export const AdminAdministrations = () => {
@@ -173,37 +187,43 @@ export const AdminAdministrations = () => {
                         </div>
                     </div>
 
+                    {/* 👇 Editor para el Resumen */}
                     <div>
                         <label className="mb-1 block text-sm font-medium text-gray-700">
                             Resumen breve *
                         </label>
-                        <textarea
-                            rows={5} // Aumentado de 3 a 5
-                            value={form.summary ?? ''}
-                            onChange={(e) => setForm({ ...form, summary: e.target.value })}
-                            className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm"
-                            placeholder="Resumen de las propuestas principales..."
-                        />
-                        <p className="mt-1 text-xs text-gray-500">
-                            Presiona "Enter" para separar párrafos o crear listas.
+                        <div className="overflow-hidden rounded-lg border border-gray-300 bg-white">
+                            <ReactQuill
+                                theme="snow"
+                                value={form.summary ?? ''}
+                                onChange={(content) => setForm({ ...form, summary: content })}
+                                modules={quillModules}
+                                className="h-32" // Altura del área de escritura
+                            />
+                        </div>
+                        <p className="mt-8 text-xs text-gray-500">
+                            Usa la barra superior para agregar negrita, subrayado o viñetas.
                         </p>
                     </div>
 
+                    {/* 👇 Editor para la Descripción completa */}
                     <div>
                         <label className="mb-1 block text-sm font-medium text-gray-700">
                             Descripción completa (opcional)
                         </label>
-                        <textarea
-                            rows={8} // Aumentado de 4 a 8
-                            value={form.full_description ?? ''}
-                            onChange={(e) =>
-                                setForm({ ...form, full_description: e.target.value })
-                            }
-                            className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm"
-                            placeholder="Detalla aquí todo el plan de trabajo..."
-                        />
-                        <p className="mt-1 text-xs text-gray-500">
-                            Los saltos de línea se mostrarán exactamente igual en la vista pública.
+                        <div className="overflow-hidden rounded-lg border border-gray-300 bg-white">
+                            <ReactQuill
+                                theme="snow"
+                                value={form.full_description ?? ''}
+                                onChange={(content) =>
+                                    setForm({ ...form, full_description: content })
+                                }
+                                modules={quillModules}
+                                className="h-48" // Altura mayor para el detalle
+                            />
+                        </div>
+                        <p className="mt-8 text-xs text-gray-500">
+                            Este texto se mostrará al expandir la tarjeta.
                         </p>
                     </div>
 

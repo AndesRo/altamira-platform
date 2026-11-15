@@ -43,3 +43,64 @@ body {
     opacity: 1;
   }
 }
+
+/* Estilos para listas dentro de las propuestas */
+.prose ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.prose ol {
+  list-style-type: decimal;
+  padding-left: 1.5rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.prose p {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.prose strong {
+  font-weight: 700;
+  color: #111827;
+  /* Texto más oscuro para que resalte */
+}
+
+/* Estilos opcionales para que el editor de Quill no se vea tan apretado */
+.ql-editor {
+  min-height: 120px;
+  font-family: inherit;
+  font-size: 0.875rem;
+}
+
+
+
+/* Mejoras visuales para el HTML renderizado (Quill) */
+.prose ul {
+  list-style-type: disc !important;
+  padding-left: 1.5rem !important;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.prose ol {
+  list-style-type: decimal !important;
+  padding-left: 1.5rem !important;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.prose p {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Esto evita que el texto se desborde */
+.prose * {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}

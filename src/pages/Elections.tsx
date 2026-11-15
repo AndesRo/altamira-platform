@@ -112,9 +112,8 @@ export const Elections = () => {
         </div>
     );
 };
-
 /* ============================================================ */
-/* TARJETA DE ADMINISTRACIÓN PARTICIPANTE                       */
+/* TARJETA DE ADMINISTRACIÓN PARTICIPANTE (CORREGIDA)           */
 /* ============================================================ */
 const AdministrationCard = ({
     admin,
@@ -140,11 +139,11 @@ const AdministrationCard = ({
                     <span className="inline-block rounded-full bg-primary-100 px-2.5 py-0.5 text-xs font-semibold uppercase tracking-wide text-primary-700">
                         Candidatura
                     </span>
-                    <h3 className="mt-1 text-lg font-bold leading-tight text-gray-900">
+                    <h3 className="mt-1 text-lg font-bold leading-tight text-gray-900 break-words">
                         {admin.name}
                     </h3>
                     {admin.contact_name && (
-                        <p className="mt-1 text-xs text-gray-500">
+                        <p className="mt-1 text-xs text-gray-500 break-words">
                             👤 Contacto: {admin.contact_name}
                         </p>
                     )}
@@ -153,26 +152,28 @@ const AdministrationCard = ({
         </div>
 
         {/* Cuerpo con resumen */}
-        <div className="flex flex-1 flex-col px-6 py-5">
+        <div className="flex flex-1 flex-col px-6 py-5 w-full overflow-hidden">
             <p className="text-sm font-semibold uppercase tracking-wide text-gray-500">
                 Resumen de la propuesta
             </p>
-            <p
-                className={`mt-2 text-[15px] leading-relaxed text-gray-700 text-justify whitespace-pre-line ${expanded ? '' : 'line-clamp-5'
+
+            {/* Contenedor del Resumen con break-words y w-full */}
+            <div
+                className={`prose prose-sm mt-2 w-full max-w-full break-words text-[15px] leading-relaxed text-gray-700 text-justify ${expanded ? '' : 'line-clamp-5'
                     }`}
-            >
-                {admin.summary}
-            </p>
+                dangerouslySetInnerHTML={{ __html: admin.summary }}
+            />
 
             {expanded && admin.full_description && (
-                <div className="mt-4 rounded-lg border border-gray-200 bg-gray-50 p-4">
+                <div className="mt-4 w-full overflow-hidden rounded-lg border border-gray-200 bg-gray-50 p-4">
                     <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-500">
                         Detalle de la propuesta
                     </p>
-                    {/* Aquí también agregamos whitespace-pre-line */}
-                    <p className="text-[15px] leading-relaxed text-gray-700 text-justify whitespace-pre-line">
-                        {admin.full_description}
-                    </p>
+                    {/* Contenedor del Detalle con break-words y w-full */}
+                    <div
+                        className="prose prose-sm w-full max-w-full break-words text-[15px] leading-relaxed text-gray-700 text-justify"
+                        dangerouslySetInnerHTML={{ __html: admin.full_description }}
+                    />
                 </div>
             )}
 
