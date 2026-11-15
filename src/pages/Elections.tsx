@@ -1,12 +1,17 @@
+// src/pages/Elections.tsx
 import { useState } from 'react';
 import { useAdministrations } from '../hooks/useAdministrations';
+import { useNews } from '../hooks/useNews'; // 👈 Importar hook de noticias
 import { Loading } from '../components/Loading';
 import { PdfViewer } from '../components/PdfViewer';
 import { resolveFileUrl } from '../utils/storage';
 import { Administration } from '../types';
+import { NewsCarousel } from '../components/NewsCarousel'; // 👈 Importar carrusel
 
 export const Elections = () => {
     const { data, loading, error } = useAdministrations();
+    const { data: newsData, loading: loadingNews } = useNews(); // 👈 Obtener noticias
+
     const [pdfToShow, setPdfToShow] = useState<string | null>(null);
     const [expandedId, setExpandedId] = useState<string | null>(null);
     const [loadingPdfId, setLoadingPdfId] = useState<string | null>(null);
@@ -30,7 +35,7 @@ export const Elections = () => {
         }
     };
 
-    if (loading) return <Loading message="Cargando candidaturas..." />;
+    if (loading || loadingNews) return <Loading message="Cargando portal..." />;
     if (error)
         return (
             <div className="rounded-lg bg-red-50 p-4 text-red-700">
@@ -38,30 +43,39 @@ export const Elections = () => {
             </div>
         );
 
+    // Tomamos solo las 4 noticias más recientes para el carrusel
+    const latestNews = newsData?.slice(0, 4) || [];
+
     return (
         <div className="space-y-8">
-            {/* Hero */}
-            <section className="relative overflow-hidden rounded-2xl">
-                <div
-                    className="absolute inset-0 bg-cover bg-center"
-                    style={{ backgroundImage: "url('/edificio-altamira.jpg')" }}
-                />
-                <div className="absolute inset-0 bg-gradient-to-r from-slate-900/85 via-slate-900/70 to-primary-900/70" />
-                <div className="relative px-6 py-14 text-white sm:px-10 sm:py-20">
-                    <span className="inline-block rounded-full bg-white/20 px-3 py-1 text-xs font-semibold uppercase tracking-wide">
-                        Elecciones 2026
-                    </span>
-                    <h1 className="mt-4 max-w-3xl text-3xl font-extrabold leading-tight sm:text-5xl">
-                        Elección de la nueva administración
-                    </h1>
-                    <p className="mt-4 max-w-2xl text-white/90">
-                        Conoce las propuestas de cada administración participante.
-                    </p>
-                    <div className="mt-6 inline-flex items-center gap-2 rounded-lg bg-amber-400/90 px-4 py-2 text-sm font-semibold text-amber-950">
-                        📍 Votación · Información 100% oficial
+            {/* 👇 SECCIÓN DEL BANNER PRINCIPAL 👇 */}
+            {latestNews.length > 0 ? (
+                <NewsCarousel news={latestNews} />
+            ) : (
+                /* Fallback: Si no hay noticias, se muestra tu Hero estático original */
+                <section className="relative overflow-hidden rounded-2xl">
+                    <div
+                        className="absolute inset-0 bg-cover bg-center"
+                        style={{ backgroundImage: "url('/edificio-altamira.jpg')" }}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-r from-slate-900/85 via-slate-900/70 to-primary-900/70" />
+                    <div className="relative px-6 py-14 text-white sm:px-10 sm:py-20">
+                        <span className="inline-block rounded-full bg-white/20 px-3 py-1 text-xs font-semibold uppercase tracking-wide">
+                            Elecciones 2026
+                        </span>
+                        <h1 className="mt-4 max-w-3xl text-3xl font-extrabold leading-tight sm:text-5xl">
+                            Elección de la nueva administración
+                        </h1>
+                        <p className="mt-4 max-w-2xl text-white/90">
+                            Conoce las propuestas de cada administración participante. La
+                            votación será <strong>presencial</strong> en el salón comunal.
+                        </p>
+                        <div className="mt-6 inline-flex items-center gap-2 rounded-lg bg-amber-400/90 px-4 py-2 text-sm font-semibold text-amber-950">
+                            📍 Votación presencial · Información 100% oficial
+                        </div>
                     </div>
-                </div>
-            </section>
+                </section>
+            )}
 
             {/* Error al cargar PDF */}
             {pdfError && (
@@ -70,7 +84,7 @@ export const Elections = () => {
                 </div>
             )}
 
-            {/* Listado de candidaturas */}
+            {/* Listado de candidaturas (Se mantiene intacto) */}
             <section>
                 <div className="mb-6">
                     <h2 className="text-xl font-bold text-gray-900">
@@ -112,6 +126,7 @@ export const Elections = () => {
         </div>
     );
 };
+// ... (Mantén el componente AdministrationCard tal cual lo tenías)
 /* ============================================================ */
 /* TARJETA DE ADMINISTRACIÓN PARTICIPANTE (CORREGIDA)           */
 /* ============================================================ */
