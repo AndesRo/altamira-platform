@@ -64,8 +64,8 @@ export const AdminContact = () => {
                     <div className="grid gap-4 sm:grid-cols-2">
                         <div><label className="mb-1 block text-xs font-medium text-gray-700">Email Administración</label><input type="email" value={form.email_admin} onChange={(e) => handleChange('email_admin', e.target.value)} className="w-full rounded-lg border px-3 py-2 text-sm" /></div>
                         <div><label className="mb-1 block text-xs font-medium text-gray-700">Descripción Admin</label><input type="text" value={form.email_admin_desc} onChange={(e) => handleChange('email_admin_desc', e.target.value)} className="w-full rounded-lg border px-3 py-2 text-sm" /></div>
-                        <div><label className="mb-1 block text-xs font-medium text-gray-700">Email Mayordomía</label><input type="email" value={form.email_mayordomo} onChange={(e) => handleChange('email_mayordomo', e.target.value)} className="w-full rounded-lg border px-3 py-2 text-sm" /></div>
-                        <div><label className="mb-1 block text-xs font-medium text-gray-700">Descripción Mayordomía</label><input type="text" value={form.email_mayordomo_desc} onChange={(e) => handleChange('email_mayordomo_desc', e.target.value)} className="w-full rounded-lg border px-3 py-2 text-sm" /></div>
+                        <div><label className="mb-1 block text-xs font-medium text-gray-700">Email Mayordomo</label><input type="email" value={form.email_mayordomo} onChange={(e) => handleChange('email_mayordomo', e.target.value)} className="w-full rounded-lg border px-3 py-2 text-sm" /></div>
+                        <div><label className="mb-1 block text-xs font-medium text-gray-700">Descripción Mayordomo</label><input type="text" value={form.email_mayordomo_desc} onChange={(e) => handleChange('email_mayordomo_desc', e.target.value)} className="w-full rounded-lg border px-3 py-2 text-sm" /></div>
                         <div><label className="mb-1 block text-xs font-medium text-gray-700">Email Conserjería</label><input type="email" value={form.email_conserje} onChange={(e) => handleChange('email_conserje', e.target.value)} className="w-full rounded-lg border px-3 py-2 text-sm" /></div>
                         <div><label className="mb-1 block text-xs font-medium text-gray-700">Descripción Conserjería</label><input type="text" value={form.email_conserje_desc} onChange={(e) => handleChange('email_conserje_desc', e.target.value)} className="w-full rounded-lg border px-3 py-2 text-sm" /></div>
                     </div>
@@ -88,7 +88,7 @@ export const AdminContact = () => {
 
                 {/* SECCIÓN 3: HORARIOS */}
                 <section className="rounded-xl border border-gray-200 bg-white p-5">
-                    <h2 className="mb-4 text-sm font-bold uppercase tracking-wide text-primary-600">3. Horarios de Mayordomía</h2>
+                    <h2 className="mb-4 text-sm font-bold uppercase tracking-wide text-primary-600">3. Horarios Atención Mayordomo</h2>
                     <div className="grid gap-4 sm:grid-cols-3">
                         <div><label className="mb-1 block text-xs font-medium text-gray-700">Lunes</label><input type="text" value={form.sched_may_lu} onChange={(e) => handleChange('sched_may_lu', e.target.value)} className="w-full rounded-lg border px-3 py-2 text-sm" /></div>
                         <div><label className="mb-1 block text-xs font-medium text-gray-700">Martes</label><input type="text" value={form.sched_may_ma} onChange={(e) => handleChange('sched_may_ma', e.target.value)} className="w-full rounded-lg border px-3 py-2 text-sm" /></div>

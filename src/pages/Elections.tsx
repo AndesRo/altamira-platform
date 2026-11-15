@@ -55,11 +55,10 @@ export const Elections = () => {
                         Elección de la nueva administración
                     </h1>
                     <p className="mt-4 max-w-2xl text-white/90">
-                        Conoce las propuestas de cada administración participante. La
-                        votación será <strong>presencial</strong> en el salón comunal.
+                        Conoce las propuestas de cada administración participante.
                     </p>
                     <div className="mt-6 inline-flex items-center gap-2 rounded-lg bg-amber-400/90 px-4 py-2 text-sm font-semibold text-amber-950">
-                        📍 Votación presencial · Información 100% oficial
+                        📍 Votación · Información 100% oficial
                     </div>
                 </div>
             </section>

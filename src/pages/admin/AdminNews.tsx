@@ -78,7 +78,7 @@ export const AdminNews = () => {
         <div>
             <div className="flex items-center justify-between">
                 <div>
-                    <h1 className="text-2xl font-bold text-gray-900">Noticias</h1>
+                    <h1 className="text-2xl font-bold text-gray-900">Avisos</h1>
                     <p className="text-sm text-gray-500">
                         Avisos y novedades para los vecinos.
                     </p>

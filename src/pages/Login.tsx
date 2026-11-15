@@ -76,9 +76,7 @@ export const Login = () => {
             <div className="relative z-10 flex min-h-screen items-center justify-center px-6 py-12">
                 <div className="w-full max-w-md text-center">
 
-                    <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-white/10 text-3xl font-bold text-white ring-1 ring-white/30 backdrop-blur">
-                        A
-                    </div>
+                    <img src="/favicon-96x96.png" alt="Altamira" className="mx-auto mb-6 h-16 w-16 rounded-2xl object-cover ring-1 ring-white/30" />
 
                     <h1 className="text-4xl font-extrabold leading-tight tracking-tight text-white drop-shadow-lg sm:text-5xl">
                         Comunidad
