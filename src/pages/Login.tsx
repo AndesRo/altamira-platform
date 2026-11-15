@@ -150,7 +150,7 @@ export const Login = () => {
                     </form>
 
                     <p className="mt-8 text-xs text-white/60">
-                        Credencial administrada por la administración del edificio.
+
                     </p>
                 </div>
             </div>
