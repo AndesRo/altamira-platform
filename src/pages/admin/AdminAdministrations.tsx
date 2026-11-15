@@ -178,12 +178,15 @@ export const AdminAdministrations = () => {
                             Resumen breve *
                         </label>
                         <textarea
-                            rows={3}
+                            rows={5} // Aumentado de 3 a 5
                             value={form.summary ?? ''}
                             onChange={(e) => setForm({ ...form, summary: e.target.value })}
                             className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm"
                             placeholder="Resumen de las propuestas principales..."
                         />
+                        <p className="mt-1 text-xs text-gray-500">
+                            Presiona "Enter" para separar párrafos o crear listas.
+                        </p>
                     </div>
 
                     <div>
@@ -191,13 +194,17 @@ export const AdminAdministrations = () => {
                             Descripción completa (opcional)
                         </label>
                         <textarea
-                            rows={4}
+                            rows={8} // Aumentado de 4 a 8
                             value={form.full_description ?? ''}
                             onChange={(e) =>
                                 setForm({ ...form, full_description: e.target.value })
                             }
                             className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm"
+                            placeholder="Detalla aquí todo el plan de trabajo..."
                         />
+                        <p className="mt-1 text-xs text-gray-500">
+                            Los saltos de línea se mostrarán exactamente igual en la vista pública.
+                        </p>
                     </div>
 
                     <div className="grid gap-4 md:grid-cols-2">

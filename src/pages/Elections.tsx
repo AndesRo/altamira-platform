@@ -158,7 +158,7 @@ const AdministrationCard = ({
                 Resumen de la propuesta
             </p>
             <p
-                className={`mt-2 text-[15px] leading-relaxed text-gray-700 text-justify ${expanded ? '' : 'line-clamp-5'
+                className={`mt-2 text-[15px] leading-relaxed text-gray-700 text-justify whitespace-pre-line ${expanded ? '' : 'line-clamp-5'
                     }`}
             >
                 {admin.summary}
@@ -167,9 +167,10 @@ const AdministrationCard = ({
             {expanded && admin.full_description && (
                 <div className="mt-4 rounded-lg border border-gray-200 bg-gray-50 p-4">
                     <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-500">
-                        Información Clave:
+                        Detalle de la propuesta
                     </p>
-                    <p className="whitespace-pre-line text-[15px] leading-relaxed text-gray-700 text-justify">
+                    {/* Aquí también agregamos whitespace-pre-line */}
+                    <p className="text-[15px] leading-relaxed text-gray-700 text-justify whitespace-pre-line">
                         {admin.full_description}
                     </p>
                 </div>
